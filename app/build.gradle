@@ -1,21 +1,72 @@
 apply plugin: 'com.android.application'
 
+def getVersionCode = { ->
+    try {
+        def code = new ByteArrayOutputStream()
+        exec {
+            commandLine 'git', 'rev-list', '--all', '--count'
+            standardOutput = code
+        }
+        return code.toString().toInteger()
+    }
+    catch (ignored) {
+        return -1;
+    }
+}
+
+def getVersionName = { ->
+    try {
+        def stdout = new ByteArrayOutputStream()
+        exec {
+            commandLine 'git', 'describe', '--tags'
+            standardOutput = stdout
+        }
+        String result = stdout.toString().trim()
+        return result.substring(0, result.indexOf('-'))
+      //  return result.substring(0, result.indexOf('-'))+"."+
+      //          result.substring(result.indexOf('-')+1, result.lastIndexOf('-'))
+    }
+    catch (ignored) {
+        return null;
+    }
+}
+
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
+    flavorDimensions "default"
+
     defaultConfig {
         applicationId "tim.android"
         minSdkVersion 21
         targetSdkVersion 25
-        versionCode 1
-        versionName "1.0"
+        versionCode 25 + getVersionCode()
+        versionName getVersionName()
+        setProperty("archivesBaseName", "$applicationId-$versionName")
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+
+    productFlavors {
+        dev {
+            dimension "default"
+            manifestPlaceholders = [ROTATION_PREF: "unspecified"]
+            versionNameSuffix = "-dev"
+        }
+
+        stable {
+            dimension "default"
+            manifestPlaceholders = [ROTATION_PREF: "portrait"]
+        }
+    }
+    packagingOptions {
+        exclude 'plugin.properties'
+        exclude 'META-INF/DEPENDENCIES'
     }
 }
 
