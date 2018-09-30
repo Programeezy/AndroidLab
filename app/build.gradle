@@ -22,9 +22,8 @@ def getVersionName = { ->
             standardOutput = stdout
         }
         String result = stdout.toString().trim()
-        return result.substring(0, result.indexOf('-'))
-      //  return result.substring(0, result.indexOf('-'))+"."+
-      //          result.substring(result.indexOf('-')+1, result.lastIndexOf('-'))
+        return result.substring(0, result.indexOf('-'))+"."+
+                result.substring(result.indexOf('-')+1, result.lastIndexOf('-'))
     }
     catch (ignored) {
         return null;
