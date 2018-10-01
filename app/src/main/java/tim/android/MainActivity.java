@@ -31,9 +31,7 @@ public class MainActivity extends AppCompatActivity {
             // Should we show an explanation?
             if (ActivityCompat.shouldShowRequestPermissionRationale(this,
                     Manifest.permission.READ_PHONE_STATE)) {
-                // Show an explanation to the user *asynchronously* -- don't block
-                // this thread waiting for the user's response! After the user
-                // sees the explanation, try again to request the permission.
+                Toast.makeText(getApplicationContext(), "Give permissions to show IMEI", Toast.LENGTH_LONG).show();
             } else {
                 // No explanation needed; request the permission
                 ActivityCompat.requestPermissions(this,
@@ -42,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
         } else {
-            imeiView.setText("Already");
+            imeiView.setText("Already"); //TelephonyManager.getDeviceId()
         }
 
     }
@@ -57,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    imeiView.setText("Granted!");
+                    imeiView.setText("Granted!"); //TelephonyManager.getDeviceId()
                 } else {
                     imeiView.setText("Denied!");
                 }
