@@ -22,8 +22,8 @@ def getVersionName = { ->
             standardOutput = stdout
         }
         String result = stdout.toString().trim()
-        return result.substring(0, result.indexOf('-'))+"."+
-                result.substring(result.indexOf('-')+1, result.lastIndexOf('-'))
+        return result.substring(0, result.indexOf('-')) + "." +
+                result.substring(result.indexOf('-') + 1, result.lastIndexOf('-'))
     }
     catch (ignored) {
         return null;
@@ -31,15 +31,15 @@ def getVersionName = { ->
 }
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    compileSdkVersion 28
+    buildToolsVersion "28.0.3"
     flavorDimensions "default"
 
     defaultConfig {
         applicationId "tim.android"
-        minSdkVersion 21
-        targetSdkVersion 25
-        versionCode 25 + getVersionCode()
+        minSdkVersion 28
+        targetSdkVersion 28
+        versionCode 28 + getVersionCode()
         versionName getVersionName()
         setProperty("archivesBaseName", "$applicationId-$versionName")
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -70,10 +70,15 @@ android {
 }
 
 dependencies {
+    def nav_version = "1.0.0-alpha07"
+    implementation "android.arch.navigation:navigation-fragment:$nav_version"
+    implementation "android.arch.navigation:navigation-ui:$nav_version"
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation "com.google.android.material:material:1.1.0-alpha01"
     compile fileTree(dir: 'libs', include: ['*.jar'])
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.android.support:appcompat-v7:25.2.0'
+    compile 'com.android.support:appcompat-v7:28.0.0'
     testCompile 'junit:junit:4.12'
 }
