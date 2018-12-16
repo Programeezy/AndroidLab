@@ -1,143 +1,95 @@
 package tim.android;
 
-import android.Manifest;
 import android.content.Context;
-import android.content.pm.PackageManager;
-import android.net.Uri;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.telephony.TelephonyManager;
 import android.view.MenuItem;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+import androidx.navigation.ui.NavigationUI;
+import de.hdodenhof.circleimageview.CircleImageView;
+import tim.android.Util.ImageUtil;
 
+public class MainActivity extends AppCompatActivity {
 
-public class MainActivity extends AppCompatActivity implements ProfileFragment.OnFragmentInteractionListener {
+    private DrawerLayout drawerLayout;
+    private NavigationView navigationView;
 
-    private final int REQUEST_PERMISSION_PHONE_STATE = 1;
-    private DrawerLayout mDrawerLayout;
-    private NavController navController;
+    private TextView headerNameView;
+    private TextView headerEmailView;
+    private CircleImageView headerCircleView;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mDrawerLayout = findViewById(R.id.draw_layout);
-        navController = Navigation.findNavController(this, R.id.my_nav_host_fragment);
+        setupToolbar();
 
-        NavigationView navigationView = findViewById(R.id.nav_view);
+        drawerLayout = findViewById(R.id.drawer_layout);
+        navigationView = findViewById(R.id.nav_view);
+
+        headerNameView = navigationView.getHeaderView(0).findViewById(R.id.headerNameView);
+        headerEmailView = navigationView.getHeaderView(0).findViewById(R.id.headerEmailView);
+        headerCircleView = navigationView.getHeaderView(0).findViewById(R.id.headerCircleView);
+
+        setupNavigation();
+
+        setupDrawerHeader();
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        return NavigationUI.navigateUp(Navigation.findNavController(this, R.id.nav_host_fragment), drawerLayout);
+    }
+
+    private void setupToolbar() {
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        ActionBar actionbar = getSupportActionBar();
+        if (actionbar != null) {
+            actionbar.setDisplayHomeAsUpEnabled(true);
+            actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);
+        }
+    }
+
+    private void setupNavigation() {
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+
+        NavigationUI.setupActionBarWithNavController(this, navController, drawerLayout);
+
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
-                    public boolean onNavigationItemSelected(MenuItem menuItem) {
-                        // set item as selected to persist highlight
-                        selectDrawerItem(menuItem);
-
-                        // Add code here to update the UI based on the item selected
-                        // For example, swap UI fragments here
-
+                    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                        menuItem.setChecked(true);
+                        drawerLayout.closeDrawers();
                         return true;
                     }
                 });
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        ActionBar actionbar = getSupportActionBar();
-        actionbar.setDisplayHomeAsUpEnabled(true);
-        actionbar.setHomeAsUpIndicator(R.drawable.ic_menu_black_24dp);
-        TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-        TextView imeiView = findViewById(R.id.textView);
-
-        if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.READ_PHONE_STATE)
-                != PackageManager.PERMISSION_GRANTED) {
-
-            // Permission is not granted
-            // Should we show an explanation?
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                    Manifest.permission.READ_PHONE_STATE)) {
-                Toast.makeText(getApplicationContext(), "Give permissions to show IMEI", Toast.LENGTH_LONG).show();
-            } else {
-                // No explanation needed; request the permission
-                ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.READ_PHONE_STATE},
-                        REQUEST_PERMISSION_PHONE_STATE);
-
-            }
-        } else {
-            imeiView.setText("Already"); //TelephonyManager.getDeviceId()
-        }
-
+        NavigationUI.setupWithNavController(navigationView, navController);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                mDrawerLayout.openDrawer(GravityCompat.START);
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
+    private void setupDrawerHeader() {
+        SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
+        String name = sharedPref.getString(getString(R.string.name_field_key), "");
+        String email = sharedPref.getString(getString(R.string.email_field_key), "");
+        String avatar = sharedPref.getString(getString(R.string.avatar_field_key), ImageUtil.DEFAULT_IMAGE_PATH);
 
-    public void selectDrawerItem(MenuItem menuItem) {
-        // Создать новый фрагмент и задать фрагмент для отображения
-        // на основе нажатия на элемент навигации
-        Fragment fragment = null;
-        Class fragmentClass;
-        switch(menuItem.getItemId()) {
-            case R.id.nav_profile:
-                navController.navigate(R.id.profileFragment);
-                break;
-            default:
-                fragmentClass = ProfileFragment.class;
-        }
+        headerNameView.setText(name);
+        headerEmailView.setText(email);
 
-        // Выделение существующего элемента выполнено с помощью
-        // NavigationView
-        menuItem.setChecked(true);
-        // Установить заголовок для action bar'а
-        setTitle(menuItem.getTitle());
-        // Закрыть navigation drawer
-        mDrawerLayout.closeDrawers();
-    }
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        TextView imeiView = (TextView) findViewById(R.id.textView);
-
-        switch (requestCode) {
-            case REQUEST_PERMISSION_PHONE_STATE: {
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    imeiView.setText("Granted!"); //TelephonyManager.getDeviceId()
-                } else {
-                    imeiView.setText("Denied!");
-                }
-            }
-
-        }
-    }
-
-
-    @Override
-    public void onFragmentInteraction(Uri uri) {
-
+        ImageUtil.loadImage(this, avatar, headerCircleView);
     }
 }
