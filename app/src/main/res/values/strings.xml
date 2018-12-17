@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SDLab</string>
+    <string name="app_name">Android Lab</string>
     <string name="app_version_label">App version:</string>
     <string name="imei_label">IMEI:</string>
 
@@ -17,7 +17,7 @@
     <string name="email_field_key">email</string>
     <string name="avatar_field_key">avatar</string>
 
-    <string name="welcome_message">Welcome to SDLab!</string>
+    <string name="welcome_message">Вiтаем Вас, Шаноўнае спадарства!</string>
 
     <string name="name_field_title">Name</string>
     <string name="surname_field_title">Surname</string>
@@ -28,4 +28,43 @@
     <string name="edit_profile_page_label">Edit Profile</string>
     <string name="info_page_label">About</string>
     <string name="empty_page_label">Empty</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    
+    <string name="login_hint">Login</string>
+    <string name="password_hint">Password</string>
+    <string name="sign_in_label">Sign in</string>
+    <string name="register_label">Register</string>
+    <string name="sign_up_label">Sign up</string>
+    <string name="log_out_label">Log out</string>
+    <string name="empty_login_error">Empty login</string>
+    <string name="empty_password_error">Empty password</string>
+    <string name="wrong_data_error">Wrong data</string>
+    <string name="user_exist_error">User already exists</string>
+    <string name="registration_complete_message">Registration completed</string>
+    <string name="login_complete_message">Hello, %1$s</string>
+    <string name="profile_data_save_confirmed_key">confirmed</string>
+    <string name="saved_message">Saved</string>
+    <string name="save_changes_title">Save changes</string>
+    <string name="save_profile_changes_message">Save profile changes?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="rss_feed_label">RSS Feed</string>
+    <string name="rss_feed_menu_item">Feed</string>
+    <string name="feed_item_image_cd">Feed Item Image</string>
+    <string name="feed_item_title_key">title</string>
+    <string name="feed_item_content_key">content</string>
+    <string name="feed_loaded_message">Feed loaded</string>
+    <string name="failed_load_feed_message">Failed to load feed</string>
+    <string name="failed_to_load_feed_message">Failed to load feed\n\nSwipe to try again</string>
+    <string name="url_hint">URL</string>
+    <string name="edit_feed_url_menu_item">Edit feed url</string>
+    <string name="feed_item_link_key">link</string>
+    <string name="open_in_browser">Open in browser</string>
+    <string name="feed_cache_key">feedCache</string>
+    <string name="no_connection_message">No connection</string>
+    <string name="feed_url_key">feedUrl</string>
+    <string name="edit_feed_url_dialog_title">Enter valid feed URL</string>
+    <string name="invalid_url_error">Invalid URL</string>
 </resources>

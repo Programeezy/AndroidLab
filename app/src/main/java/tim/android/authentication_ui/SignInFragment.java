@@ -1,4 +1,4 @@
-package com.develop.dubhad.sdlab.authentication_ui;
+package tim.android.authentication_ui;
 
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -7,11 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.develop.dubhad.sdlab.R;
-import com.develop.dubhad.sdlab.authentication.Authentication;
-import com.develop.dubhad.sdlab.authentication.SignInResultListener;
-import com.develop.dubhad.sdlab.user.User;
-import com.develop.dubhad.sdlab.util.KeyboardUtil;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -20,6 +15,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
+import tim.android.R;
+import tim.android.authentication.Authentication;
+import tim.android.authentication.SignInResultListener;
+import tim.android.user.User;
+import tim.android.util.KeyboardUtil;
 
 public class SignInFragment extends Fragment implements SignInResultListener {
     

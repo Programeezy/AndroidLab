@@ -1,11 +1,11 @@
-package com.develop.dubhad.sdlab.profile_ui;
+package tim.android.profile_ui;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 
-import com.develop.dubhad.sdlab.R;
+import tim.android.R;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;

@@ -1,13 +1,12 @@
-package com.develop.dubhad.sdlab.user;
+package tim.android.user;
 
 import android.app.Application;
 import android.os.AsyncTask;
 
-import com.develop.dubhad.sdlab.db.UserDatabase;
-
 import java.util.List;
 
 import androidx.lifecycle.LiveData;
+import tim.android.db.UserDatabase;
 
 public class UserRepository {
     
@@ -20,23 +19,23 @@ public class UserRepository {
         userDao = db.userDao();
         users = userDao.getAllUsers();
     }
-    
+
     public LiveData<List<User>> getAllUsers() {
         return users;
     }
-    
+
     public User getUser(String login, String password) {
         return userDao.getUser(login, password);
     }
-    
+
     public User getUser(String login) {
         return userDao.getUser(login);
     }
-    
+
     public void insertUser(User user) {
         new insertUserAsyncTask(userDao).execute(user);
     }
-    
+
     public void updateUser(User user) {
         new updateUserAsyncTask(userDao).execute(user);
     }

@@ -1,10 +1,10 @@
-package com.develop.dubhad.sdlab.authentication;
+package tim.android.authentication;
 
 import android.os.AsyncTask;
 
-import com.develop.dubhad.sdlab.App;
-import com.develop.dubhad.sdlab.user.User;
-import com.develop.dubhad.sdlab.user.UserRepository;
+import tim.android.App;
+import tim.android.user.User;
+import tim.android.user.UserRepository;
 
 public class Authentication {
     
@@ -24,7 +24,7 @@ public class Authentication {
         return currentUser != null;
     }
     
-    public static void signIn(SignInResultListener signInResultListener, String login, String password) {
+    public static void signIn(tim.android.authentication.SignInResultListener signInResultListener, String login, String password) {
         new signInAsyncTask(signInResultListener, userRepository).execute(login, password);
     }
     

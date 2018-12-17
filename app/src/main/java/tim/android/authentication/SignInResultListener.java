@@ -1,6 +1,6 @@
-package com.develop.dubhad.sdlab.authentication;
+package tim.android.authentication;
 
-import com.develop.dubhad.sdlab.user.User;
+import tim.android.user.User;
 
 public interface SignInResultListener {
     void onSignInComplete(User user);

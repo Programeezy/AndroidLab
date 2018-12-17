@@ -1,16 +1,16 @@
-package com.develop.dubhad.sdlab.db;
+package tim.android.db;
 
 import android.content.Context;
 import android.os.AsyncTask;
 
-import com.develop.dubhad.sdlab.user.User;
-import com.develop.dubhad.sdlab.user.UserDao;
+import tim.android.user.User;
 
 import androidx.annotation.NonNull;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
+import tim.android.user.UserDao;
 
 @Database(entities = {User.class}, version = 3, exportSchema = false)
 public abstract class UserDatabase extends RoomDatabase {

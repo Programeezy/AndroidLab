@@ -1,4 +1,4 @@
-package com.develop.dubhad.sdlab.user;
+package tim.android.user;
 
 import androidx.annotation.NonNull;
 import androidx.room.Entity;

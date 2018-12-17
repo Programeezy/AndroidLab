@@ -1,4 +1,4 @@
-package com.develop.dubhad.sdlab.user;
+package tim.android.user;
 
 import android.app.Application;
 

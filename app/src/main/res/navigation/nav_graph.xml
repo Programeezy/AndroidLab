@@ -17,20 +17,26 @@
             android:id="@+id/action_startFragment_to_infoFragment"
             app:destination="@id/infoFragment" />
         <action
-            android:id="@+id/action_startFragment_to_firstEmptyFragment"
-            app:destination="@id/firstEmptyFragment" />
-        <action
             android:id="@+id/action_startFragment_to_secondEmptyFragment"
             app:destination="@id/secondEmptyFragment" />
+        <action
+            android:id="@+id/action_startFragment_to_signInFragment"
+            app:destination="@id/signInFragment" />
+        <action
+            android:id="@+id/action_startFragment_to_signUpFragment"
+            app:destination="@id/signUpFragment" />
+        <action
+            android:id="@+id/action_startFragment_to_rssFeedFragment"
+            app:destination="@id/rssFeedFragment" />
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
-        android:name="tim.android.ProfileFragment"
+        android:name="tim.android.profile_ui.ProfileFragment"
         android:label="@string/profile_page_label"
         tools:layout="@layout/profile_layout" >
         <action
             android:id="@+id/action_profileFragment_to_editProfileFragment"
-            app:destination="@id/editProfileFragment" />
+            app:destination="@id/editProfileFragment"   />
         <deepLink app:uri="sdapp://sdlab/page/1"/>
     </fragment>
     <fragment
@@ -40,20 +46,47 @@
         tools:layout="@layout/fragment_info" />
     <fragment
         android:id="@+id/editProfileFragment"
-        android:name="tim.android.EditProfileFragment"
+        android:name="tim.android.profile_ui.EditProfileFragment"
         android:label="@string/edit_profile_page_label"
         tools:layout="@layout/edit_profile_layout" >
     </fragment>
     <fragment
-        android:id="@+id/firstEmptyFragment"
-        android:name="tim.android.FirstEmptyFragment"
-        android:label="@string/empty_page_label"
-        tools:layout="@layout/fragment_first_empty" >
-        <deepLink app:uri="sdapp://sdlab/page/2"/></fragment>
+        android:id="@+id/rssFeedFragment"
+        android:name="tim.android.rss_ui.RssFeedFragment"
+        android:label="@string/rss_feed_label"
+        tools:layout="@layout/fragment_rss_feed" >
+        <deepLink app:uri="sdapp://sdlab/page/2"/>
+        <action
+            android:id="@+id/action_rssFeedFragment_to_rssFeedItemFragment"
+            app:destination="@id/rssFeedItemFragment" />
+    </fragment>
     <fragment
         android:id="@+id/secondEmptyFragment"
         android:name="tim.android.SecondEmptyFragment"
         android:label="@string/empty_page_label"
         tools:layout="@layout/fragment_second_empty" >
         <deepLink app:uri="sdapp://sdlab/page/3"/></fragment>
+    <fragment
+        android:id="@+id/signInFragment"
+        android:name="tim.android.authentication_ui.SignInFragment"
+        android:label="@string/sign_in_label"
+        tools:layout="@layout/fragment_sign_in" >
+        <action
+            android:id="@+id/action_signInFragment_to_profileFragment"
+            app:destination="@id/profileFragment" app:popUpTo="@id/nav_graph" app:popUpToInclusive="true"/>
+    </fragment>
+    <fragment
+        android:id="@+id/signUpFragment"
+        android:name="tim.android.authentication_ui.SignUpFragment"
+        android:label="@string/sign_up_label"
+        tools:layout="@layout/fragment_sign_up" >
+        <action
+            android:id="@+id/action_signUpFragment_to_signInFragment"
+            app:destination="@id/signInFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/rssFeedItemFragment"
+        android:name="tim.android.rss_ui.RssFeedItemFragment"
+        android:label="fragment_rss_feed_item"
+        tools:layout="@layout/fragment_rss_feed_item" />
 </navigation>
