@@ -7,11 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import tim.android.R;
-import tim.android.authentication.Authentication;
-import tim.android.authentication.SignUpResultListener;
-import tim.android.user.User;
-import tim.android.util.KeyboardUtil;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -20,6 +15,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
+import tim.android.R;
+import tim.android.authentication.Authentication;
+import tim.android.authentication.SignUpResultListener;
+import tim.android.user.User;
+import tim.android.util.KeyboardUtil;
 
 
 public class SignUpFragment extends Fragment implements SignUpResultListener {
@@ -59,7 +59,8 @@ public class SignUpFragment extends Fragment implements SignUpResultListener {
                     passwordLayout.setError(getString(R.string.empty_password_error));
                 }
                 else {
-                    Authentication.signUp(SignUpFragment.this, inputLogin.getText().toString(), inputPassword.getText().toString());
+                    String password = inputPassword.getText().toString();
+                    Authentication.signUp(SignUpFragment.this, inputLogin.getText().toString(), Authentication.md5(password));
                 }
             }
         });
@@ -80,4 +81,5 @@ public class SignUpFragment extends Fragment implements SignUpResultListener {
     public void onSignUpFail() {
 
     }
+
 }

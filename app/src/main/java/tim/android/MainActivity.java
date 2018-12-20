@@ -1,6 +1,7 @@
 package tim.android;
 
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -31,6 +32,10 @@ public class MainActivity extends AppCompatActivity implements SignInResultListe
 
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
+    private MenuItem profileFragment;
+    private MenuItem rssFragment;
+    private MenuItem emptyFragment;
+    private boolean isSignedIn;
 
     public interface BackPressedListener {
         void onBackPressed();
@@ -50,6 +55,14 @@ public class MainActivity extends AppCompatActivity implements SignInResultListe
 
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
+        Menu menu = navigationView.getMenu();
+        profileFragment = menu.findItem(R.id.profileFragment);
+        rssFragment = menu.findItem(R.id.rssFeedFragment);
+        emptyFragment = menu.findItem(R.id.secondEmptyFragment);
+
+        if (Authentication.isAuthenticated()) {
+            setupMenuItems(true);
+        }
 
         drawerLayout.addDrawerListener(new DrawerLayout.SimpleDrawerListener() {
             @Override
@@ -64,7 +77,8 @@ public class MainActivity extends AppCompatActivity implements SignInResultListe
 
     @Override
     public void onSignInComplete(User user) {
-        
+        setupMenuItems(true);
+        isSignedIn = true;
     }
 
     @Override
@@ -164,7 +178,17 @@ public class MainActivity extends AppCompatActivity implements SignInResultListe
             }
         });
     }
-    
+
+    private void setupMenuItems(boolean state)
+    {
+        emptyFragment.setVisible(state);
+        profileFragment.setVisible(state);
+        rssFragment.setVisible(state);
+        emptyFragment.setEnabled(state);
+        profileFragment.setEnabled(state);
+        rssFragment.setEnabled(state);
+        drawerLayout.closeDrawers();
+    }
     private void setupUserDrawerHeader(User currentUser) {
         navigationView.removeHeaderView(navigationView.getHeaderView(0));
         navigationView.inflateHeaderView(R.layout.drawer_header);
@@ -180,6 +204,9 @@ public class MainActivity extends AppCompatActivity implements SignInResultListe
                 Authentication.logOut();
                 FeedCacheManager.clearCache(MainActivity.this);
                 Navigation.findNavController(MainActivity.this, R.id.nav_host_fragment).navigate(R.id.startFragment);
+                Snackbar.make(v, "You have logged out succesfully", Snackbar.LENGTH_LONG).show();
+                setupMenuItems(false);
+                isSignedIn = false;
                 drawerLayout.closeDrawers();
             }
         });

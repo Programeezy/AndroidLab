@@ -2,14 +2,20 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group android:checkableBehavior="single">
         <item
+            android:visible="false"
+            android:enabled="false"
             android:id="@+id/profileFragment"
             android:title="@string/profile_menu_item"
             android:icon="@drawable/ic_person_black_24dp"/>
         <item
+            android:visible="false"
+            android:enabled="false"
             android:id="@+id/rssFeedFragment"
             android:title="@string/rss_feed_menu_item"
             android:icon="@drawable/ic_rss_feed_black_24dp"/>
         <item
+            android:visible="false"
+            android:enabled="false"
             android:id="@+id/secondEmptyFragment"
             android:title="@string/empty_menu_item"
             android:icon="@drawable/ic_block_black_24dp"/>

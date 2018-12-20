@@ -59,7 +59,8 @@ public class SignInFragment extends Fragment implements SignInResultListener {
                     passwordLayout.setError(getString(R.string.empty_password_error));
                 }
                 else {
-                    Authentication.signIn(SignInFragment.this, inputLogin.getText().toString(), inputPassword.getText().toString());
+                    String password = inputPassword.getText().toString();
+                    Authentication.signIn(SignInFragment.this, inputLogin.getText().toString(), Authentication.md5(password), (SignInResultListener) getActivity());
                 }
             }
         });
@@ -76,4 +77,6 @@ public class SignInFragment extends Fragment implements SignInResultListener {
         loginLayout.setError(getString(R.string.wrong_data_error));
         passwordLayout.setError(getString(R.string.wrong_data_error));
     }
+
+
 }

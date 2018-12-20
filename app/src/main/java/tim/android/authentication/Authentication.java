@@ -2,6 +2,9 @@ package tim.android.authentication;
 
 import android.os.AsyncTask;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
 import tim.android.App;
 import tim.android.user.User;
 import tim.android.user.UserRepository;
@@ -15,7 +18,31 @@ public class Authentication {
     private static void setCurrentUser(User user) {
         currentUser = user;
     }
-    
+
+    public static String md5(final String s) {
+        try {
+            // Create MD5 Hash
+            MessageDigest digest = java.security.MessageDigest
+                    .getInstance("MD5");
+            digest.update(s.getBytes());
+            byte messageDigest[] = digest.digest();
+
+            // Create Hex String
+            StringBuffer hexString = new StringBuffer();
+            for (int i = 0; i < messageDigest.length; i++) {
+                String h = Integer.toHexString(0xFF & messageDigest[i]);
+                while (h.length() < 2)
+                    h = "0" + h;
+                hexString.append(h);
+            }
+            return hexString.toString();
+
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
     public static User getCurrentUser() {
         return currentUser;
     }
@@ -24,8 +51,11 @@ public class Authentication {
         return currentUser != null;
     }
     
-    public static void signIn(tim.android.authentication.SignInResultListener signInResultListener, String login, String password) {
-        new signInAsyncTask(signInResultListener, userRepository).execute(login, password);
+    public static void signIn(tim.android.authentication.SignInResultListener signInResultListener,
+                              String login,
+                              String password,
+                              SignInResultListener mainListener) {
+        new signInAsyncTask(signInResultListener, userRepository, mainListener).execute(login, password);
     }
     
     public static void signUp(SignUpResultListener signUpResultListener, String login, String password) {
@@ -41,10 +71,13 @@ public class Authentication {
         private UserRepository userRepository;
         
         private SignInResultListener resultListener;
-        
-        signInAsyncTask(SignInResultListener signInResultListener, UserRepository repository) {
+
+        private SignInResultListener mainActivityListener;
+
+        signInAsyncTask(SignInResultListener signInResultListener, UserRepository repository, SignInResultListener mainListener) {
             userRepository = repository;
             resultListener = signInResultListener;
+            mainActivityListener = mainListener;
         }
 
         @Override
@@ -60,6 +93,7 @@ public class Authentication {
             else {
                 setCurrentUser(user);
                 resultListener.onSignInComplete(user);
+                mainActivityListener.onSignInComplete(user);
             }
         }
     }
